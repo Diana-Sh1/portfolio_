@@ -4,7 +4,8 @@ const bowl = document.querySelector(".bowl");
 const text = document.querySelector(".text");
 const addNoodlesBtn = document.getElementById("add-noodles");
 const chars = new SplitText(text, { type: "chars", charsClass: "char" });
-const alphabet = "abcdefghijklmnopqrstuvwxyz";
+// const alphabet = "abcdefghijklmnopqrstuvwxyz";
+const alphabet = "Hi, I am Diana";
 
 gsap.defaults({ overwrite: true });
 
@@ -51,7 +52,7 @@ function moveChars(obj) {
 }
 
 Observer.create({
-    target: bowl,
+    target: header,
     onMove: (self) => self.event.target.matches(".char") && moveChars(self)
 });
 
