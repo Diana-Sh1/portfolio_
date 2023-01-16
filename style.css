@@ -13,7 +13,7 @@ body {
     --color-noodle: hsl(32 100% 75%);
     --color-soup: hsl(10 100% 34%);
     --color-placemat: hsla(0 100% 39% / 0.5);
-overflow: hidden;
+    overflow: hidden;
     place-items: center;
     font-family: "Gluten", monospace;
     background: hsl(186deg 67% 74%);
