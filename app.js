@@ -5,7 +5,7 @@ const text = document.querySelector(".text");
 const addNoodlesBtn = document.getElementById("add-noodles");
 const chars = new SplitText(text, { type: "chars", charsClass: "char" });
 // const alphabet = "abcdefghijklmnopqrstuvwxyz";
-const alphabet = "Hi, I am Diana";
+const alphabet = "abcdefghijklmnopqrstuvwxyz";
 
 gsap.defaults({ overwrite: true });
 
