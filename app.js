@@ -1,66 +1,108 @@
-import { SplitText } from "/plugin/splitText.js";
-gsap.registerPlugin(Observer);
-const bowl = document.querySelector(".bowl");
-const text = document.querySelector(".text");
-const addNoodlesBtn = document.getElementById("add-noodles");
-const chars = new SplitText(text, { type: "chars", charsClass: "char" });
-// const alphabet = "abcdefghijklmnopqrstuvwxyz";
-const alphabet = "abcdefghijklmnopqrstuvwxyz";
+// gsap.registerPlugin(ScrollTrigger);
+// let section = document.querySelector('.page1');
+// let centerSectionWidth = section.offsetWidth / 2;
+// let centerSectionHeigh = section.offsetHeight / 2;
+// const tl = gsap.timeline();
+// tl.to(".blob", {
+//     scrollTrigger: {
+//         trigger: ".blob",
+//         start: "3%",
+//         ease: "slow(0.7, 0.7, false)",
+//         toggleClass: "scale",
+//         scrub: true,
+//         markers: true
+//     }})
+//     .to(".blob", {
+//     x: 500,
+//     y: () => centerSectionHeigh,
+//     scrollTrigger: {
+//         trigger: ".blob",
+//         start: "3%",
+//         end: "100%",
+//         // onLeaveBack: () => {
+//         //     document.querySelector(".blob").classList.remove("scale");
+//         // },
+//         // onEnter: () => {
+//         //     document.querySelector(".blob").classList.add("scale");
+//         // },
+//         scrub: true,
+//         markers: true,
+//     },
+//
+// })
+let button = document.querySelector('#button')
 
-gsap.defaults({ overwrite: true });
+// module aliases
+let Engine = Matter.Engine,
+    Render = Matter.Render,
+    Runner = Matter.Runner,
+    Bodies = Matter.Bodies,
+    Composite = Matter.Composite,
+    Mouse = Matter.Mouse,
+    MouseConstraint = Matter.MouseConstraint;
 
-function getRandomInt(val) {
-    return Math.ceil(Math.random() * val) * (Math.round(Math.random()) ? 1 : -1);
-}
 
-function addLetter() {
-    const el = document.createElement("div");
-    const char = alphabet[Math.floor(Math.random() * alphabet.length)];
-    const pos = 40;
-    const translate = 30;
-    const rotate = 60;
+// create an engine
+let engine = Engine.create();
 
-    el.innerText = char;
-    el.classList.add("char");
-    el.style.top = `${getRandomInt(pos)}%`;
-    el.style.left = `${getRandomInt(pos)}%`;
-
-    bowl.appendChild(el);
-    gsap.to(el, {
-        xPercent: () => getRandomInt(translate),
-        yPercent: () => getRandomInt(translate),
-        rotation: () => getRandomInt(rotate),
-        ease: "expo.out",
-        duration: 2
-    });
-}
-
-function moveChars(obj) {
-    const { event, deltaX, deltaY } = obj;
-    const el = event.target;
-    const r = el.getBoundingClientRect();
-    const y = event.clientY - (r.top + Math.floor(r.height / 2));
-    const t = 5;
-
-    gsap.to(obj.event.target, {
-        xPercent: `+=${deltaX * t}`,
-        yPercent: `+=${deltaY * t}`,
-        rotation: `-=${deltaX * t * Math.sign(y)}`,
-        duration: 3,
-        ease: "expo.out"
-    });
-}
-
-Observer.create({
-    target: header,
-    onMove: (self) => self.event.target.matches(".char") && moveChars(self)
+// create a renderer
+let render = Render.create({
+    element: document.body,
+    engine: engine,
+    options: {
+        background: "#b2bec3",
+        wireframes: false,
+        width: window.innerWidth,
+        height: window.innerHeight
+    }
 });
 
-gsap.to(".char", {
-    xPercent: () => getRandomInt(10),
-    yPercent: () => getRandomInt(10),
-    rotation: () => getRandomInt(20),
-    duration: 5
+// let createbox = () => {
+
+    // let box = Bodies.circle(400, 0, 100, {
+    //     render: {
+    //         fillStyle: 'rgba(255, 118, 117, 0.5)',
+    //
+    //     }
+    // }, 60);
+let box =  Bodies.circle(Math.random()*600 + 30, 30, 60)
+// }
+let rect = Bodies.rectangle(200, 200, 100, 200)
+
+let polygon = Bodies.polygon(500, 700, 5, 50)
+Composite.add(engine.world, [rect, box, polygon]);
+// create  ground
+let ground = Bodies.rectangle(window.innerWidth / 2, window.innerHeight, window.innerWidth, 30,
+    { isStatic: true,
+    render: {
+    fillStyle: 'transparent'
+    }});
+
+// add all of the bodies to the world
+Composite.add(engine.world, [ground]);
+
+// run the renderer
+Render.run(render);
+
+// create runner
+let runner = Runner.create();
+
+// run the engine
+Runner.run(runner, engine);
+
+// button.addEventListener('click', createbox)
+
+
+let mouse = Mouse.create(render.canvas);
+let mouseConstraint = MouseConstraint.create(engine, {
+    mouse: mouse,
+    constraint: {
+        stiffness: 0.2,
+        render: {
+            visible: false
+        }
+    }
 });
 
-addNoodlesBtn.addEventListener("click", addLetter);
+
+Composite.add(engine.world, mouseConstraint)
