@@ -1,6 +1,7 @@
 {
   "type": "module",
   "dependencies": {
+    "animejs": "^3.2.1",
     "matter-js": "^0.18.0"
   }
 }
