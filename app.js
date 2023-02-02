@@ -1,3 +1,4 @@
+// gsap.registerPlugin(ScrollTrigger, Draggable);
 
 //HELLO
 const THICCNESS = 60;
@@ -5,7 +6,7 @@ const SVG_PATH_SELECTOR = ".matter-path";
 const SVG_WIDTH_IN_PX = 100;
 const SVG_WIDTH_AS_PERCENT_OF_CONTAINER_WIDTH = 0.1;
 
-const matterContainer = document.querySelector("#matter-container");
+const matterContainer = document.querySelector(".intro");
 
 // module aliases
 var Engine = Matter.Engine,
@@ -24,8 +25,7 @@ var Engine = Matter.Engine,
 // create an engine
 var engine = Engine.create();
 
-// add bodies
-
+// group = Body.nextGroup(true);
 
 // create a renderer
 var render = Render.create({
@@ -40,74 +40,57 @@ var render = Render.create({
 
     }
 });
-
-
+//
+//
 createSvgBodies();
 createCircle();
-/////////////////////
-// let boxA  = Bodies.rectangle(window.innerWidth / 2, window.innerHeight / 2, 20, 100, {
-//
-//             friction: 0.3,
-//             frictionAir: 0.00001,
-//             restitution: 0.8,
-//             isStatic: true,
-//             render: {
-//                 fillStyle: "#F99fff",
-//                 strokeStyle: "#F99fff"
-//             }
-//         });
-// let boxB  = Bodies.rectangle(200, 100, 50, 20, {
-//             friction: 0.3,
-//             frictionAir: 0.00001,
-//             restitution: 0.8,
-//             render: {
-//                 fillStyle: "#F99fff",
-//                 strokeStyle: "#F99fff"
-//             }
-//         });
-// let boxC  = Bodies.rectangle(200, 100, 50, 20, {
-//     friction: 0.3,
-//     frictionAir: 0.00001,
-//     restitution: 0.8,
-//     render: {
-//         fillStyle: "#F99fff",
-//         strokeStyle: "#F99fff"
-//     }
-// });
-// let AtoB = Constraint.create({
-//     bodyA:boxA,
-//     bodyB:boxB,
-//     bodyC:boxC,
-//     length: 200,
-//     stiffness: 0.5,
-//     pointA: {
-//         x: 0,
-//         y: 40
-//     }
-// })
-// let AtoC = Constraint.create({
-//     bodyA:boxA,
-//     bodyB:boxC,
-//     length: 100,
-//     stiffness: 0.5,
-//     pointC: {
-//         x: 0,
-//         y: 0
-//     }
-// })
-// // let options = {
-// //     bodyA: p1.body,
-// //     bodyB: p2.body,
-// //     length: 50,
-// //     stiffness: 0.4
-// // }
-// // let constraint = Constraint.create(options);
-// Composite.add(engine.world, [boxA, boxB, boxC, AtoB, AtoC]);
 
-//////////////
-////////
+function createCircle() {
+    let circleDiameter =
+        matterContainer.clientWidth * SVG_WIDTH_AS_PERCENT_OF_CONTAINER_WIDTH;
+    let circle = Bodies.circle(
+        matterContainer.clientWidth / 2,
+        10,
+        circleDiameter / 2,
+        {
+            friction: 0.3,
+            frictionAir: 0.00001,
+            restitution: 0.8,
+            render: {
+                fillStyle: "#f7b731",
+                strokeStyle: "#fed330"
+            }
+        }
+    );
+    Composite.add(engine.world, circle);
+}
 
-///////////
+function createSvgBodies() {
+    const paths = document.querySelectorAll(SVG_PATH_SELECTOR);
+    paths.forEach((path, index) => {
+        let vertices = Svg.pathToVertices(path);
+        let scaleFactor =
+            (matterContainer.clientWidth * SVG_WIDTH_AS_PERCENT_OF_CONTAINER_WIDTH) /
+            SVG_WIDTH_IN_PX;
+        vertices = Vertices.scale(vertices, scaleFactor, scaleFactor);
+        let svgBody = Bodies.fromVertices(
+            index * SVG_WIDTH_IN_PX + 200,
+            0,
+            [vertices],
+            {
+                friction: 1,
+                frictionAir: 0.00001,
+                restitution: 0.8,
+                render: {
+                    fillStyle: "#f7b731",
+                    strokeStyle: "#f7b731",
+                    lineWidth: 1
+                }
+            }
+        );
+        Composite.add(engine.world, svgBody);
+    });
+}
 
 
 var ground = Bodies.rectangle(
@@ -115,7 +98,12 @@ var ground = Bodies.rectangle(
     matterContainer.clientHeight + THICCNESS / 3.5,
     27184,
     THICCNESS,
-    { isStatic: true }
+
+    { isStatic: true,
+    render: {
+        fillStyle: '#6D214F'
+    }},
+
 );
 
 let leftWall = Bodies.rectangle(
@@ -136,7 +124,6 @@ let rightWall = Bodies.rectangle(
     { isStatic: true }
 );
 
-// add all of the bodies to the world
 Composite.add(engine.world, [ground, leftWall, rightWall]);
 
 
@@ -164,7 +151,7 @@ mouseConstraint.mouse.element.removeEventListener(
     mouseConstraint.mouse.mousewheel
 );
 
-// run the renderer
+//run the renderer
 Render.run(render);
 
 // create runner
@@ -174,52 +161,6 @@ var runner = Runner.create();
 Runner.run(runner, engine);
 
 
-function createCircle() {
-    let circleDiameter =
-        matterContainer.clientWidth * SVG_WIDTH_AS_PERCENT_OF_CONTAINER_WIDTH;
-    let circle = Bodies.circle(
-        matterContainer.clientWidth / 3,
-        10,
-        circleDiameter / 2,
-        {
-            friction: 0.3,
-            frictionAir: 0.00001,
-            restitution: 0.8,
-            render: {
-                fillStyle: "#ef5566",
-                strokeStyle: "#ef5566"
-            }
-        }
-    );
-    Composite.add(engine.world, circle);
-}
-
-function createSvgBodies() {
-    const paths = document.querySelectorAll(SVG_PATH_SELECTOR);
-    paths.forEach((path, index) => {
-        let vertices = Svg.pathToVertices(path);
-        let scaleFactor =
-            (matterContainer.clientWidth * SVG_WIDTH_AS_PERCENT_OF_CONTAINER_WIDTH) /
-            SVG_WIDTH_IN_PX;
-        vertices = Vertices.scale(vertices, scaleFactor, scaleFactor);
-        let svgBody = Bodies.fromVertices(
-            index * SVG_WIDTH_IN_PX + 200,
-            0,
-            [vertices],
-            {
-                friction: 0.3,
-                frictionAir: 0.00001,
-                restitution: 0.8,
-                render: {
-                    fillStyle: "#ef5566",
-                    strokeStyle: "#ef5566",
-                    lineWidth: 1
-                }
-            }
-        );
-        Composite.add(engine.world, svgBody);
-    });
-}
 
 function scaleBodies() {
     const allBodies = Composite.allBodies(engine.world);
@@ -272,11 +213,10 @@ window.addEventListener("resize", () => handleResize(matterContainer));
 
 
 
-
 //BLOB
 // let section = document.querySelector('.page1');
 // let centerSectionWidth = section.offsetWidth / 2;
-// let centerSectionHeigh = section.offsetHeight / 2;
+// let centerSectionHeight = section.offsetHeight / 2;
 // const tl = gsap.timeline();
 // tl.to(".blob", {
 //     scrollTrigger: {
@@ -289,7 +229,7 @@ window.addEventListener("resize", () => handleResize(matterContainer));
 //     }})
 //     .to(".blob", {
 //     x: 500,
-//     y: () => centerSectionHeigh,
+//     y: () => centerSectionHeight,
 //     scrollTrigger: {
 //         trigger: ".blob",
 //         start: "3%",
@@ -305,101 +245,6 @@ window.addEventListener("resize", () => handleResize(matterContainer));
 //     },
 //
 // })
-
-//MATTER JS
-// let button = document.querySelector('#button')
-//
-// // module aliases
-// let Engine = Matter.Engine,
-//     Render = Matter.Render,
-//     Runner = Matter.Runner,
-//     Bodies = Matter.Bodies,
-//     Composite = Matter.Composite,
-//     Mouse = Matter.Mouse,
-//     MouseConstraint = Matter.MouseConstraint;
-//
-//
-// // create an engine
-// let engine = Engine.create();
-//
-// // create a renderer
-// let render = Render.create({
-//     element: document.body,
-//     engine: engine,
-//     options: {
-//         background: "#b2bec3",
-//         wireframes: false,
-//         width: window.innerWidth,
-//         height: window.innerHeight
-//     }
-// });
-//
-// // let createbox = () => {
-//
-//     // let box = Bodies.circle(400, 0, 100, {
-//     //     render: {
-//     //         fillStyle: 'rgba(255, 118, 117, 0.5)',
-//     //
-//     //     }
-//     // }, 60);
-// let box =  Bodies.circle(Math.random()*600 + 30, 30, 60)
-// // }
-// let rect = Bodies.rectangle(Math.random()*600, 200, 100, 200)
-// let polygon = Bodies.polygon(Math.random()*600, 0, 6, 50);
-// let stick = Bodies.rectangle(Math.random()*600, 0, 600, 30)
-//
-// //add bodies to world
-// Composite.add(engine.world, [rect, box, polygon, stick]);
-//
-//
-// // create  ground, walls
-// let ground = Bodies.rectangle(window.innerWidth / 2, window.innerHeight, window.innerWidth, 30,
-//     { isStatic: true,
-//     render: {
-//     fillStyle: 'transparent'
-//     }});
-// let leftWall = Bodies.rectangle(0, window.innerHeight, 30, window.innerHeight, {
-//     isStatic: true,
-//     render: {
-//         fillStyle: '#000'
-//     }
-// })
-// let rightWall = Bodies.rectangle(window.innerWidth, window.innerHeight, 30, 420,{
-//     isStatic: true,
-//     render: {
-//         fillStyle: '#000'
-//     }
-// })
-//
-// Composite.add(engine.world, [ground, leftWall, rightWall]);
-//
-//
-// // run the renderer
-// Render.run(render);
-//
-// // create runner
-// let runner = Runner.create();
-//
-// // run the engine
-// Runner.run(runner, engine);
-//
-// // button.addEventListener('click', createbox)
-//
-//
-// let mouse = Mouse.create(render.canvas);
-// let mouseConstraint = MouseConstraint.create(engine, {
-//     mouse: mouse,
-//     constraint: {
-//         stiffness: 0.2,
-//         render: {
-//             visible: false
-//         }
-//     }
-// });
-//
-//
-// Composite.add(engine.world, mouseConstraint)
-
 
 
 
