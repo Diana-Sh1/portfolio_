@@ -1,4 +1,4 @@
-// gsap.registerPlugin(ScrollTrigger, Draggable);
+// gsap.registerPlugin(ScrollTrigger);
 
 //HELLO
 const THICCNESS = 60;
@@ -6,7 +6,7 @@ const SVG_PATH_SELECTOR = ".matter-path";
 const SVG_WIDTH_IN_PX = 100;
 const SVG_WIDTH_AS_PERCENT_OF_CONTAINER_WIDTH = 0.1;
 
-const matterContainer = document.querySelector(".intro");
+const matterContainer = document.querySelector(".grid");
 
 // module aliases
 var Engine = Matter.Engine,
@@ -58,13 +58,38 @@ function createCircle() {
             restitution: 0.8,
             render: {
                 fillStyle: "#f7b731",
-                strokeStyle: "#fed330"
+                strokeStyle: "#f7b731"
             }
         }
     );
     Composite.add(engine.world, circle);
 }
 
+// function createSvgBodies() {
+//     const paths = document.querySelectorAll(SVG_PATH_SELECTOR);
+//     paths.forEach((path, index) => {
+//         let vertices = Svg.pathToVertices(path);
+//         let scaleFactor =
+//             (matterContainer.clientWidth * SVG_WIDTH_AS_PERCENT_OF_CONTAINER_WIDTH) /
+//             SVG_WIDTH_IN_PX;
+//         vertices = Vertices.scale(vertices, scaleFactor, scaleFactor);
+//         let svgBody = Bodies.fromVertices(
+//             index * SVG_WIDTH_IN_PX + 200,
+//             0,
+//             [vertices], {
+//                 friction: 1,
+//                 frictionAir: 0.00001,
+//                 restitution: 0.8,
+//                 render: {
+//                     fillStyle: "#f7b731",
+//                     strokeStyle: "#f7b731",
+//                     lineWidth: 1
+//                 }
+//             }
+//         );
+//         Composite.add(engine.world, svgBody);
+//     });
+// }
 function createSvgBodies() {
     const paths = document.querySelectorAll(SVG_PATH_SELECTOR);
     paths.forEach((path, index) => {
@@ -76,8 +101,7 @@ function createSvgBodies() {
         let svgBody = Bodies.fromVertices(
             index * SVG_WIDTH_IN_PX + 200,
             0,
-            [vertices],
-            {
+            [vertices], {
                 friction: 1,
                 frictionAir: 0.00001,
                 restitution: 0.8,
@@ -91,7 +115,6 @@ function createSvgBodies() {
         Composite.add(engine.world, svgBody);
     });
 }
-
 
 var ground = Bodies.rectangle(
     matterContainer.clientWidth / 2,
@@ -112,7 +135,10 @@ let leftWall = Bodies.rectangle(
     THICCNESS,
     matterContainer.clientHeight * 5,
     {
-        isStatic: true
+        isStatic: true,
+        render: {
+            fillStyle: 'transparent'
+        }
     }
 );
 
@@ -121,7 +147,10 @@ let rightWall = Bodies.rectangle(
     matterContainer.clientHeight / 2,
     THICCNESS,
     matterContainer.clientHeight * 5,
-    { isStatic: true }
+    { isStatic: true,
+    render: {
+        fillStyle: 'transparent'
+    }}
 );
 
 Composite.add(engine.world, [ground, leftWall, rightWall]);
@@ -204,9 +233,6 @@ function handleResize(matterContainer) {
 }
 
 window.addEventListener("resize", () => handleResize(matterContainer));
-
-
-
 
 
 

@@ -31,12 +31,18 @@ body {
 main {
     margin-top: 65px;
     overflow: hidden;
+    display: flex;
+}
+.wrapper {
+    width: 100%;
 }
 .container {
     margin: 0 auto;
     width: 90%;
     max-width: 1300px;
+
     position: relative;
+    display: flex;
 }
 .grid {
     position: fixed;
@@ -57,6 +63,7 @@ main {
     position: relative;
     display: flex;
     flex-direction: column;
+
 }
 section {
     margin-bottom: 20%;
@@ -92,9 +99,9 @@ section {
         border-radius: 42% 68% 70% 30% / 45% 45% 55% 55%; } }
 
 @media (min-width: 1300px) {
-    .intro__shape, .blob {
-        width: 30vw;
-        height: 30vw;
+    .intro__shape {
+        width: 35vw;
+        height: 35vw;
     }
 }
 
@@ -161,29 +168,18 @@ section {
     /*animation: morph 7s linear infinite;*/
     /*background-color: gold;*/
 }
-.blob:nth-child(2) {
-    inset: 10px;
-    filter: blur(8px) opacity(50%);
-}
-
-canvas {
-    position: fixed;
-    /*height: 600px;*/
-    /*width: 1000px;*/
-    z-index: 3;
-    /*left: 40%;*/
-    bottom: 0;
-}
-/*#matter-container {*/
-/*    height: 100vh;*/
-/*    width: 100%;*/
-/*    background-blend-mode: multiply;*/
-/*    background-image: url("img/Background.svg");*/
-/*    background-color: darkgray;*/
-/*    background-size: cover;*/
-
-
+/*.blob:nth-child(2) {*/
+/*    inset: 10px;*/
+/*    filter: blur(8px) opacity(50%);*/
 /*}*/
-svg{
-display: none;
+canvas {
+    bottom: 0;
+    position: relative;
+    z-index: 3;
 }
+
+.svg-letters{
+    display: none;
+
+}
+
