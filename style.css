@@ -80,7 +80,8 @@ section {
     z-index: 1;
     transform: translateZ(0);
     animation: morph 7s linear infinite;
-    background-color: #F97F51;
+    background-color: rgba(255, 195, 18, 0.8);
+    /*background-color: rgba(249, 127, 81, 0.5);*/
 }
 @keyframes morph {
     0% {

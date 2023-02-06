@@ -2,10 +2,13 @@
 
 //HELLO
 const THICCNESS = 60;
-const SVG_PATH_SELECTOR = ".matter-path";
+const SVG_PATH_SELECTORh = "#matter-pathH";
+const SVG_PATH_SELECTORi = "#matter-pathI";
+
 const SVG_WIDTH_IN_PX = 100;
 const SVG_WIDTH_AS_PERCENT_OF_CONTAINER_WIDTH = 0.1;
-
+const width = window.innerWidth;
+const height = window.innerHeight;
 const matterContainer = document.querySelector(".grid");
 
 // module aliases
@@ -20,12 +23,21 @@ var Engine = Matter.Engine,
     Svg = Matter.Svg,
     Vector = Matter.Vector,
     Vertices = Matter.Vertices,
-    Constraint = Matter.Constraint;
+    Constraint = Matter.Constraint,
+    World = Matter.World;
 
 // create an engine
 var engine = Engine.create();
+world = engine.world; //
 
-// group = Body.nextGroup(true);
+
+
+// create runner
+var runner = Runner.create();
+Runner.run(runner, engine);
+
+// add bodies
+var group = Body.nextGroup(true);
 
 // create a renderer
 var render = Render.create({
@@ -40,30 +52,140 @@ var render = Render.create({
 
     }
 });
-//
-//
-createSvgBodies();
-createCircle();
+Render.run(render);
 
-function createCircle() {
-    let circleDiameter =
-        matterContainer.clientWidth * SVG_WIDTH_AS_PERCENT_OF_CONTAINER_WIDTH;
-    let circle = Bodies.circle(
-        matterContainer.clientWidth / 2,
-        10,
-        circleDiameter / 2,
-        {
-            friction: 0.3,
-            frictionAir: 0.00001,
-            restitution: 0.8,
-            render: {
-                fillStyle: "#f7b731",
-                strokeStyle: "#f7b731"
-            }
+let ropeSegments = Composites.stack(width / 2, 50, 20, 1, 0, 0, function(x, y) {
+    return Bodies.rectangle(x, y, 10, 10, {
+        density: 1, // really high density but you get the idea
+        isSensor: true,
+        frictionAir: 0.0005
+    });
+});
+////#2
+
+///
+
+// // chain Stack together
+let rope = Composites.chain(ropeSegments, 0, 0.5, 0, -0.5, {
+    length: 0,
+    stiffness: 1,
+    friction: 0,
+    frictionAir: 0,
+    frictionStatic: 0,
+    render: {
+        lineWidth: 0,
+        anchors: false
+    }
+});
+///////
+
+// top anchor
+Composite.add(ropeSegments, Constraint.create({
+    pointA: { x: width / 2 + 400, y: 0 },
+    bodyB: ropeSegments.bodies[0],
+    pointB: { x: 0, y: -5 },
+    length: 0,
+    stiffness: 1,
+    friction: 0,
+    frictionAir: 0,
+    frictionStatic: 0,
+    render: {
+        lineWidth: 0,
+        anchors: false
+    }}));
+
+///////////
+
+//////
+
+
+World.add(world, rope);
+
+Render.lookAt(render, {
+    min: { x: 0, y: 0 },
+    max: { x: width, y: height }
+});
+
+let x = ropeSegments.bodies[ropeSegments.bodies.length - 1].position.x;
+let y = ropeSegments.bodies[ropeSegments.bodies.length - 1].position.y;
+/////
+// let x1 = ropeSegments1.bodies[ropeSegments1.bodies.length - 1].position.x;
+// let y2 = ropeSegments1.bodies[ropeSegments1.bodies.length - 1].position.y;
+
+let pixelHeight = 0.2 * height;
+
+/////////////
+const pathH = document.querySelector('#matter-pathH');
+// const pathI = document.querySelector('#matter-pathI');
+
+let vertices = Svg.pathToVertices(pathH);
+let scaleFactor =
+    (matterContainer.clientWidth * SVG_WIDTH_AS_PERCENT_OF_CONTAINER_WIDTH) /
+    SVG_WIDTH_IN_PX;
+vertices = Vertices.scale(vertices, scaleFactor, scaleFactor);
+let svgBody = Bodies.fromVertices(
+    100,
+    0,
+    [vertices], {
+        friction: 1,
+        frictionAir: 0.00001,
+        restitution: 0.8,
+        render: {
+            fillStyle: "#f7b731",
+            strokeStyle: "#f7b731",
+            lineWidth: 1
         }
-    );
-    Composite.add(engine.world, circle);
-}
+    }
+);
+
+// Composite.add(engine.world, svgBody);
+
+//////
+
+
+
+Composite.add(ropeSegments, Constraint.create({
+    bodyA: ropeSegments.bodies[ropeSegments.bodies.length-1],
+    bodyB: svgBody,
+    length: 0,
+    angularStiffness: 1,
+    render: {
+        lineWidth: 0
+    }
+}));
+
+World.add(world, svgBody);
+///////////////
+
+
+
+
+// createSvgBodies();
+// createCircle();
+
+// function createCircle() {
+//     let circleDiameter =
+//         matterContainer.clientWidth * SVG_WIDTH_AS_PERCENT_OF_CONTAINER_WIDTH;
+//     let circle = Bodies.circle(
+//         matterContainer.clientWidth / 2,
+//         10,
+//         circleDiameter / 2,
+//         {
+//             friction: 0.3,
+//             frictionAir: 0.00001,
+//             restitution: 0.8,
+//             render: {
+//                 fillStyle: "#f7b731",
+//                 strokeStyle: "#f7b731"
+//             }
+//         }
+//     );
+//     Composite.add(engine.world, circle);
+// }
+
+
+
+
 
 // function createSvgBodies() {
 //     const paths = document.querySelectorAll(SVG_PATH_SELECTOR);
@@ -90,31 +212,7 @@ function createCircle() {
 //         Composite.add(engine.world, svgBody);
 //     });
 // }
-function createSvgBodies() {
-    const paths = document.querySelectorAll(SVG_PATH_SELECTOR);
-    paths.forEach((path, index) => {
-        let vertices = Svg.pathToVertices(path);
-        let scaleFactor =
-            (matterContainer.clientWidth * SVG_WIDTH_AS_PERCENT_OF_CONTAINER_WIDTH) /
-            SVG_WIDTH_IN_PX;
-        vertices = Vertices.scale(vertices, scaleFactor, scaleFactor);
-        let svgBody = Bodies.fromVertices(
-            index * SVG_WIDTH_IN_PX + 200,
-            0,
-            [vertices], {
-                friction: 1,
-                frictionAir: 0.00001,
-                restitution: 0.8,
-                render: {
-                    fillStyle: "#f7b731",
-                    strokeStyle: "#f7b731",
-                    lineWidth: 1
-                }
-            }
-        );
-        Composite.add(engine.world, svgBody);
-    });
-}
+
 
 var ground = Bodies.rectangle(
     matterContainer.clientWidth / 2,
