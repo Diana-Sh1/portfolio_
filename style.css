@@ -66,7 +66,7 @@ main {
     border-right: 1px solid hsla(0,0%,100%,.1);
 }
 .intro {
-    margin-left: 5%;
+    /*margin-left: 5%;*/
     position: relative;
     display: flex;
     flex-direction: column;
@@ -75,6 +75,36 @@ main {
 section {
     margin-bottom: 20%;
 }
+
+.header {
+    position: fixed;
+    top: 40px;
+    right: 0;
+    max-width: 200px;
+    text-align: right;
+}
+.menu__list {
+    position: relative;
+    margin: 0 20px 0 0px;
+
+}
+
+.menu__link {
+    color: rgb(255,255,255, 0.5);
+    font-size: 1.3rem;
+}
+@media (min-width: 767px) {
+    .menu__list {
+        display: flex;
+
+        flex-direction: column;
+    }
+    .menu__list > li {
+        padding: 5px 0;
+    }
+}
+
+
 
 .intro__shape {
     position: absolute;
