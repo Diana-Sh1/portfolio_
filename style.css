@@ -40,8 +40,15 @@ main {
     margin: 0 auto;
     width: 90%;
     max-width: 1300px;
-
     position: relative;
+    display: flex;
+}
+.container-canvas {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
 }
 .grid {
