@@ -127,7 +127,7 @@ section {
     }
     .icon-burger span:first-child {
         transform: translate(4px,0) rotate(3deg);
-        background-color: #833471;
+        background-color: #B53471;
     }
     .icon-burger span:nth-child(2) {
         transform: translate(0,-1px) rotate(-2deg);
