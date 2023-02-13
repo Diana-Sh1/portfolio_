@@ -1,82 +1,25 @@
-@charset "UTF-8";
+
 /*Обнуление*/
-* {
-  padding: 0;
-  margin: 0;
-  border: 0;
-}
-
-*, *:before, *:after {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-:focus, :active {
-  outline: none;
-}
-
-a:focus, a:active {
-  outline: none;
-}
-
-nav, footer, header, aside {
-  display: block;
-}
-
-html, body {
-  height: 100%;
-  width: 100%;
-  font-size: 100%;
-  line-height: 1;
-  -ms-text-size-adjust: 100%;
-  -moz-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-}
-
-input, button, textarea {
-  font-family: inherit;
-}
-
-input::-ms-clear {
-  display: none;
-}
-
-button {
-  cursor: pointer;
-}
-
-button::-moz-focus-inner {
-  padding: 0;
-  border: 0;
-}
-
-a, a:visited {
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: none;
-}
-
-ul li {
-  list-style: none;
-}
-
-img {
-  vertical-align: top;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-size: inherit;
-  font-weight: 400;
-}
+* {padding: 0;margin: 0;border: 0;}
+*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
+:focus, :active {outline: none;}
+a:focus, a:active {outline: none;}
+nav, footer, header, aside {display: block;}
+html, body {height: 100%;width: 100%;font-size: 100%;line-height: 1;-ms-text-size-adjust: 100%;-moz-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;}
+input, button, textarea {font-family: inherit;}
+input::-ms-clear {display: none;}
+button {cursor: pointer;}
+button::-moz-focus-inner {padding: 0;border: 0;}
+a, a:visited {text-decoration: none;}
+a:hover {text-decoration: none;}
+ul li {list-style: none;}
+img {vertical-align: top;}
+h1, h2, h3, h4, h5, h6 {font-size: inherit;font-weight: 400;}
 
 /*-----*/
 h1, h2 {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Open Sans",sans-serif;
 }
-
 body {
   position: absolute;
   text-rendering: optimizeLegibility;
@@ -85,17 +28,14 @@ body {
   color: #fff;
   background-color: #2a2a2a;
 }
-
 main {
   margin-top: 65px;
   overflow: hidden;
   display: flex;
 }
-
 .wrapper {
   width: 100%;
 }
-
 .container {
   margin: 0 auto;
   width: 90%;
@@ -103,23 +43,33 @@ main {
   position: relative;
   display: flex;
 }
-
 .tags {
   color: #515152;
   position: absolute;
+  //bottom: 0;
   bottom: auto;
   top: 1rem;
   left: 1rem;
   font-style: italic;
   font-size: 1.8rem;
-  font-family: "La Belle Aurore", cursive;
-}
+  font-family: 'La Belle Aurore',cursive;
 
+}
 .top-tag {
   margin-top: -65px;
   position: relative;
   top: 4rem;
 }
+//.main-tag {
+//  &:after {
+//    content: '<h1>';
+//    font-family: 'La Belle Aurore', cursive;
+//    color: #515152;
+//    font-size: 1.8rem;
+//    position: absolute;
+//    margin-left: 2rem;
+//  }
+//}
 
 .container-canvas {
   width: 100%;
@@ -129,7 +79,6 @@ main {
   bottom: 0;
   display: flex;
 }
-
 .grid {
   position: fixed;
   width: 100%;
@@ -138,30 +87,31 @@ main {
   bottom: 0;
   display: flex;
   justify-content: space-between;
-}
 
+}
 .grid-line {
   flex-basis: 20%;
   position: relative;
-  border-right: 1px solid hsla(0deg, 0%, 100%, 0.1);
+  border-right: 1px solid hsla(0,0%,100%,.1);
 }
-
 .intro {
   /*margin-left: 5%;*/
   margin-top: 5%;
   position: relative;
   display: flex;
   flex-direction: column;
-}
-.intro:before {
-  content: "<h1>";
-  font-family: "La Belle Aurore", cursive;
-  color: #515152;
-  font-size: 1.8rem;
-  position: absolute;
-  margin-left: 2rem;
+&:before {
+
+    content: '<h1>';
+    font-family: 'La Belle Aurore', cursive;
+    color: #515152;
+    font-size: 1.8rem;
+    position: absolute;
+    margin-left: 2rem;
+
 }
 
+}
 section {
   margin-bottom: 20%;
 }
@@ -173,33 +123,35 @@ section {
   left: 0;
   z-index: 50;
   background-color: #2a2a2a;
-  border-bottom: 1px solid hsla(0deg, 0%, 100%, 0.1);
-}
+  border-bottom: 1px solid hsla(0,0%,100%,.1);
 
+}
 .menu__body {
   display: flex;
   justify-content: flex-end;
   margin: 0 20px 0 0px;
+
 }
 
 .menu__link {
   color: #FFF;
   font-size: 1rem;
   letter-spacing: 1px;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
-
 @media (min-width: 767px) {
   .menu__list {
     display: flex;
     align-items: baseline;
     margin: 16px;
+
   }
   .menu__list > li {
     margin-right: 20px;
+
   }
   .icon-burger {
-    transform: translate(0, 3px);
+    transform: translate(0,3px);
     background-color: transparent;
     display: inline-block;
     cursor: pointer;
@@ -210,30 +162,33 @@ section {
     width: 30px;
     height: 7px;
     mix-blend-mode: multiply;
-    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition: transform .3s cubic-bezier(.68,-.55,.265,1.55);
   }
   .icon-burger span:first-child {
-    transform: translate(4px, 0) rotate(3deg);
+    transform: translate(4px,0) rotate(3deg);
     background-color: #833471;
   }
   .icon-burger span:nth-child(2) {
-    transform: translate(0, -1px) rotate(-2deg);
+    transform: translate(0,-1px) rotate(-2deg);
     background-color: #43A759;
   }
   .icon-burger span:nth-child(3) {
-    transform: translate(4px, -2px) rotate(5deg);
+    transform: translate(4px,-2px) rotate(5deg);
     background-color: #ff9f50;
   }
-  .about:hover .icon-burger span:nth-child(3) {
-    transform: translate(0px, 2px) rotate(0deg);
+  .about:hover .icon-burger span:nth-child(3){
+    transform: translate(0px,2px) rotate(0deg);
   }
-  .about:hover .icon-burger span:first-child {
-    transform: translate(0px, -2px) rotate(0deg);
+  .about:hover .icon-burger span:first-child{
+    transform: translate(0px,-2px) rotate(0deg);
   }
-  .about:hover .icon-burger span:nth-child(2) {
-    transform: translate(0px, 0px) rotate(0deg);
+  .about:hover .icon-burger span:nth-child(2){
+    transform: translate(0px,0px) rotate(0deg);
   }
 }
+
+
+
 .intro__shape {
   position: absolute;
   border-radius: 39% 60% 72% 30%/48% 48% 56% 54%;
@@ -248,82 +203,72 @@ section {
   background-color: rgba(255, 195, 18, 0.8);
   /*background-color: rgba(249, 127, 81, 0.5);*/
 }
-
 @keyframes morph {
   0% {
-    border-radius: 42% 68% 70% 30%/45% 45% 55% 55%;
-  }
+    border-radius: 42% 68% 70% 30% / 45% 45% 55% 55%; }
   25% {
-    border-radius: 38% 58% 60% 36%/48% 50% 60% 57%;
-  }
+    border-radius: 38% 58% 60% 36% / 48% 50% 60% 57%; }
   32% {
-    border-radius: 38% 62% 65% 33%/48% 50% 60% 57%;
-  }
+    border-radius: 38% 62% 65% 33% / 48% 50% 60% 57%; }
   50% {
-    border-radius: 41% 62% 65% 32%/46% 47% 57% 56%;
-  }
+    border-radius: 41% 62% 65% 32% / 46% 47% 57% 56%; }
   75% {
-    border-radius: 36% 58% 60% 36%/48% 50% 60% 57%;
-  }
+    border-radius: 36% 58% 60% 36% / 48% 50% 60% 57%; }
   85% {
-    border-radius: 38% 60% 65% 34%/46% 48% 58% 56%;
-  }
+    border-radius: 38% 60% 65% 34% / 46% 48% 58% 56%; }
   100% {
-    border-radius: 42% 68% 70% 30%/45% 45% 55% 55%;
-  }
-}
+    border-radius: 42% 68% 70% 30% / 45% 45% 55% 55%; } }
+
 @media (min-width: 1300px) {
   .intro__shape {
     width: 35vw;
     height: 35vw;
   }
 }
+
 .intro__header--copy {
-  font-size: 160px;
+  font-size: 160px ;
   text-transform: uppercase;
+
   position: absolute;
   z-index: 1;
   color: purple;
 }
-
 .intro__header span {
   position: relative;
   display: flex;
 }
-
 .intro__header {
   min-height: 400px;
   position: relative;
   padding-bottom: 300px;
-}
-.intro__header:after {
-  margin-top: 4rem;
-  content: "</h1>";
-  font-family: "La Belle Aurore", cursive;
-  color: #515152;
-  font-size: 1.8rem;
-  position: absolute;
-  margin-left: 2rem;
-}
+  &:after {
+    margin-top: 4rem;
+    content: '</h1>';
+    font-family: 'La Belle Aurore', cursive;
+    color: #515152;
+    font-size: 1.8rem;
+    position: absolute;
+    margin-left: 2rem;
 
+  }
+}
 .intro h1 {
   line-height: 1;
-  font-size: calc(80px + 80 * (100vw - 320px) / 960);
+  font-size: calc(80px + 80 * ((100vw - 320px) / (1280 - 320)));
   margin-top: 60px;
   text-transform: uppercase;
   font-weight: 900;
-  font-family: "Poppins", sans-serif;
-}
+  font-family: 'Poppins', sans-serif;
 
+}
 .rellax {
   transform: translate3d(0px, -51px, 0px);
 }
-
 .intro__greeting {
   position: relative;
   display: flex;
 }
-
 .intro_iam, .intro_name {
   display: block;
 }
@@ -334,22 +279,20 @@ canvas {
   z-index: 3;
 }
 
-.svg-letters {
+.svg-letters{
   display: none;
-}
 
+}
 .description {
   padding: 40px 70px;
+  & h2 {
+    line-height: 2;
+    letter-spacing: 2px;
+    font-size: 1.2rem;
+  }
+  & h2 span {
+    display: block;
+  }
   color: gold;
   border: 1px solid #43A759;
 }
-.description h2 {
-  line-height: 2;
-  letter-spacing: 2px;
-  font-size: 1.2rem;
-}
-.description h2 span {
-  display: block;
-}
-
-/*# sourceMappingURL=style.css.map */
