@@ -5,7 +5,7 @@ const SVG_WIDTH_IN_PX = 100;
 const SVG_WIDTH_AS_PERCENT_OF_CONTAINER_WIDTH = 0.1;
 const width = window.innerWidth;
 const height = window.innerHeight;
-const matterContainer = document.querySelector(".wrapper");
+const matterContainer = document.querySelector(".container-canvas");
 
 // module aliases
 
@@ -51,13 +51,13 @@ const matterContainer = document.querySelector(".wrapper");
     Render.run(render);
 
 //creating segments for rope
-    let ropeSegments = Composites.stack(width / 2, 50, 30, 1, 0, 0, function (x, y) {
-        return Bodies.rectangle(x, y, 5, 5, {
+    let ropeSegments = Composites.stack(width / 2, 50, 20, 1, 0, 0, function (x, y) {
+        return Bodies.rectangle(x, y, 10, 10, {
             density: 1, // really high density but you get the idea
             isSensor: true,
             frictionAir: 0.0005,
             render: {
-
+                fillStyle: 'transparent'
             }
         });
     });
@@ -80,7 +80,7 @@ const matterContainer = document.querySelector(".wrapper");
     Composite.add(ropeSegments,
         Constraint.create({
             bodyB: ropeSegments.bodies[0],
-            pointA: {x: width / 1.3 , y: 0},
+            pointA: {x: width / 1.3 , y: -200},
             pointB: {x: 0, y: -5},
             length: 0,
             stiffness: 1,
@@ -89,7 +89,7 @@ const matterContainer = document.querySelector(".wrapper");
             frictionStatic: 4,
             render: {
                 lineWidth: 0,
-                anchors: false
+                anchors: false,
             }
         }));
 
@@ -110,7 +110,7 @@ picture = Bodies.rectangle(x, y, pixelHeight *0.724, pixelHeight, {
     density: 0.01704 / height,
     render: {
         sprite: {
-            texture: "img/hey3.svg"
+            texture: "img/hey4.svg"
         }
     }
 
@@ -121,7 +121,7 @@ picture = Bodies.rectangle(x, y, pixelHeight *0.724, pixelHeight, {
         SVG_WIDTH_IN_PX;
 
     Composite.add(ropeSegments, Constraint.create({
-        pointA: {x: 0 , y: 50},
+        pointA: {x: 0 , y: 0},
         bodyA: ropeSegments.bodies[ropeSegments.bodies.length - 1],
         bodyB: picture,
         length: 0,
